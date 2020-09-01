@@ -31,62 +31,41 @@ var list = [
 //     }
 // }
 
-function splitElementArray(array) {
-  for (let i = 0; i < array.length; i++) {
-    const element = array[i];
-    const spliteElement = element.split("/");
-    array.splice(i, 1, spliteElement);
-    continue;
+/**
+ *
+ * @param {Array<String>} filePath
+ */
+function composeDirectoryTree(filePaths) {
+  const directoryTree = {};
+  for (let path of filePaths) {
+    apendSinglPath(directoryTree, path);
   }
-  return array;
+  return directoryTree;
 }
 
-function arraySplit(array) {
-  for (let i = 0; i < array.length; i++) {
-    const element = array[i];
-    element.forEach((item, index, element) => {
-      if (item === "") {
-        element.splice(index, 1);
-        return element;
-      }
-    });
-    continue;
-  }
-  return array;
-}
-
-function parseTree(array) {
-  let object = {};
-
-  for (let i = 0; i < array.length; i++) {
-    let a = array[i];
-    let b = array[i + 1];
-    if (b == undefined) {
-      b = array[0];
+function apendSinglPath(directoryTree, path) {
+  let descriptors = path.split("/");
+  let nonEmptyDescriptors = descriptors;
+  let currentPosition = directoryTree;
+  for (const descriptor of nonEmptyDescriptors) {
+    const key = retrieveKey(descriptor);
+    const value = retrieveValue(descriptor);
+    if (key in currentPosition === false) {
+      currentPosition[key] = value;
     }
-
-    for (let j = 0; j < a.length; j++) {
-      if (a[j] === b[j]) {
-        if (object[a[j]] === a[j]) {
-          continue;
-        } else {
-          object[a[j]] = {};
-          continue;
-        }
-      } else if (b[j] === undefined) {
-        object[a[j - 1]][a[j]] = {};
-      } else if (a[j].lastIndexOf(".") >= 0) {
-        let fileExtension = a[j].split(".");
-        object[a[j - 1]] = { [fileExtension[0]]: fileExtension[1] };
-      } else if (a[0] !== b[0]) {
-        object[a[j]] = {};
-      } else if (a[j] !== b[j]) {
-        object[a[j - 1]][a[j]] = {};
-        continue;
-      }
-    }
-    continue;
+    currentPosition = currentPosition[key];
   }
-  return object;
+  return directoryTree;
 }
-console.log(parseTree(arraySplit(splitElementArray(list))));
+
+function retrieveKey(descriptor) {
+  let arrayOfKeyValuePair = descriptor.split(".");
+  return arrayOfKeyValuePair[0];
+}
+function retrieveValue(descriptor) {
+  let arrayOfKeyValuePair = descriptor.split(".");
+  return arrayOfKeyValuePair[1] || {};
+}
+
+const directoryTree = composeDirectoryTree(list);
+console.log(JSON.stringify(directoryTree, null, " "));
