@@ -5,9 +5,9 @@ var list = [
   "/root/user2/file15.txt",
   "/root/user1/folder1/file2.txt",
   "/root/user1/folder1/file3.mp4",
-  "/root/user1/folder1/folder4/",
+  "/root/user1/folder1/folder4",
   "/root/file4.txt",
-  "/var/lib/",
+  "/var/lib",
 ];
 
 // Expected result easy version:
@@ -45,23 +45,36 @@ function composeDirectoryTree(filePaths) {
 
 function apendSinglPath(directoryTree, path) {
   let descriptors = path.split("/");
-  let nonEmptyDescriptors = descriptors;
+  let nonSpacesDescriptors = deleteEmptySpaces(descriptors);
   let currentPosition = directoryTree;
-  for (const descriptor of nonEmptyDescriptors) {
+  for (const descriptor of nonSpacesDescriptors) {
     const key = retrieveKey(descriptor);
     const value = retrieveValue(descriptor);
     if (key in currentPosition === false) {
       currentPosition[key] = value;
+      // создаем елемент в индекс.штмл
     }
     currentPosition = currentPosition[key];
+    // сохраняем апендед чайлд.
   }
   return directoryTree;
+}
+
+function deleteEmptySpaces(descriptors) {
+  for (const element of descriptors) {
+    if (element === "") {
+      let indexOfElement = descriptors.indexOf(element);
+      descriptors.splice(indexOfElement, 1);
+      return descriptors;
+    }
+  }
 }
 
 function retrieveKey(descriptor) {
   let arrayOfKeyValuePair = descriptor.split(".");
   return arrayOfKeyValuePair[0];
 }
+
 function retrieveValue(descriptor) {
   let arrayOfKeyValuePair = descriptor.split(".");
   return arrayOfKeyValuePair[1] || {};
