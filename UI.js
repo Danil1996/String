@@ -1,24 +1,14 @@
 "use strict";
-
-let data = {
-  root: {
-    user1: {
-      file1: "txt",
-      folder1: {
-        file2: "txt",
-        file3: "mp4",
-        folder4: {},
-      },
-    },
-    user2: {
-      file15: "txt",
-    },
-    file4: "txt",
-  },
-  var: {
-    lib: {},
-  },
-};
+var list = [
+  "/root/user1/file1.txt",
+  "/root/user2/file15.txt",
+  "/root/user1/folder1/file2.txt",
+  "/root/user1/folder1/file3.mp4",
+  "/root/user1/folder1/folder4",
+  "/root/file4.txt",
+  "/var/lib",
+];
+let data = composeDirectoryTree(list);
 
 function objectTraversal(container, directoryTree) {
   container.append(getKey(directoryTree));
