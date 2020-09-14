@@ -1,7 +1,7 @@
-.tree span:hover {
+.container span:hover {
     font-weight: bold;
   }
 
-  .tree span {
+  .container span {
     cursor: pointer;
   }
