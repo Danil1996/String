@@ -1,0 +1,10 @@
+.container span:hover {
+  font-weight: bold;
+}
+
+.container span {
+  cursor: pointer;
+}
+/* ul:hover{
+  background:#53ea93;
+} */

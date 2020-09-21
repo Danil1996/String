@@ -9,7 +9,6 @@ var list = [
   "/var/lib",
 ];
 let data = composeDirectoryTree(list);
-
 function objectTraversal(container, directoryTree) {
   container.append(getKey(directoryTree));
 
@@ -30,22 +29,40 @@ function objectTraversal(container, directoryTree) {
 let container = document.getElementById("container");
 console.log(objectTraversal(container, data));
 
+// функция для скрытия раскрытия папки
+for (let li of container.querySelectorAll("li")) {
+  let span = document.createElement("span");
+  li.prepend(span);
+  span.append(span.nextSibling);
+}
 
-    for (let li of container.querySelectorAll('li')) {
-      let span = document.createElement('span');
-      li.prepend(span);
-      span.append(span.nextSibling); // поместить текстовый узел внутрь элемента <span>
-    }
+container.onclick = function (event) {
+  if (event.target.tagName != "SPAN") {
+    return;
+  }
 
-    //  ловим клики на всём дереве
-    container.onclick = function(event) {
+  let childrenContainer = event.target.parentNode.querySelector("ul");
+  if (!childrenContainer) return;
 
-      if (event.target.tagName != 'SPAN') {
-        return;
-      }
+  childrenContainer.hidden = !childrenContainer.hidden;
+};
 
-      let childrenContainer = event.target.parentNode.querySelector('ul');
-      if (!childrenContainer) return; // нет детей
+// function pictureAssignment(key) {
+// }
 
-      childrenContainer.hidden = !childrenContainer.hidden;
-    }
+// function addWindow (event){
+// }
+
+// function addNewDirectory(params) {
+// }
+
+// function addNewFile(params) { 
+// }
+
+// function download (event) {
+// }
+
+// function delate (event) {
+// }
+
+
