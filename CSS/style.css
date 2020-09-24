@@ -1,4 +1,4 @@
-.container span:hover {
+/* .container span:hover {
   font-weight: bold;
 }
 
@@ -7,4 +7,28 @@
 }
 /* ul:hover{
   background:#53ea93;
-} */
+} */ 
+
+.button1 {border-radius: 8px;
+  background-color: #0c1e86; /* Green */
+  border: none;
+  color: white;
+  padding: 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;}
+
+  .button2 {border-radius: 8px;
+    background-color: #525fa7; /* Green */
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;}
