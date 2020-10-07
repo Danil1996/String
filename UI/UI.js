@@ -10,34 +10,55 @@ var list = [
 ];
 let data = composeDirectoryTree(list);
 
+var data1 = "text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(list));
+
+let a = document.createElement('a');
+a.href = 'data:' + data1;
+a.download = 'data.json';
+a.innerHTML = 'download JSON';
+
+let download = document.getElementById('download');
+download.appendChild(a);
+
+let container = document.getElementById("container");
+
+
 function objectTraversal(container, directoryTree) {
   container.append(getKey(directoryTree));
 
   function getKey(directoryTree) {
     let ul = document.createElement("ul");
-    ul.style.listStyle = 'none';
+    ul.style.listStyle = "none";
     for (let key in directoryTree) {
       if (typeof directoryTree[key] === "string") {
-        let btn = document.createElement("button");
         key = `${key}.${directoryTree[key]}`;
         let li = document.createElement("li");
         li.innerHTML = key;
-        li.style.listStyleImage = 'url(../Image/icons8-file-48.png)'
+        li.style.listStyleImage = "url(../Image/icons8-file-48.png)";
+        let btn = document.createElement("button");
+        btn.style.alignItems = "right";
+        btn.textContent = "delete";
+        btn.className = "deleteBtn";
         ul.append(li);
-
-        
+        li.append(btn);
       } else {
         let btn = document.createElement("button");
+        let btn2 = document.createElement("button");
         btn.textContent = "-";
         btn.style.alignItems = "left";
-       
+        btn.id = "btn";
+        btn2.textContent = "delete";
+        btn2.style.alignItems = "right";
+        btn2.id = "deleteBtn";
+
         let li = document.createElement("li");
+        li.id = 'folder';
         li.innerHTML = key;
-        li.style.listStyleImage = 'url(../Image/icons8-folder-48.png)';
+        li.style.listStyleImage = "url(../Image/icons8-folder-48.png)";
 
         ul.append(li);
         li.prepend(btn);
-        
+        li.append(btn2);
 
         if (typeof directoryTree[key] === "object") {
           let childrenUl = getKey(directoryTree[key]);
@@ -48,7 +69,6 @@ function objectTraversal(container, directoryTree) {
     return ul;
   }
 }
-let container = document.getElementById("container");
 objectTraversal(container, data);
 
 container.addEventListener("click", changeBtn);
@@ -62,10 +82,10 @@ function changeBtn(e) {
     e.target.className = "button1";
   }
 }
-container.addEventListener('click', itemDisplay);
+container.addEventListener("click", itemDisplay);
 
 function itemDisplay(event) {
-  if (event.target.tagName != "BUTTON") {
+  if (event.target.id != "btn") {
     return;
   }
 
@@ -73,7 +93,19 @@ function itemDisplay(event) {
   if (!childrenContainer) return;
 
   childrenContainer.hidden = !childrenContainer.hidden;
-};
+}
+
+container.addEventListener("click", deleteElement);
+
+function deleteElement (event) {
+  let li = event.target.parentNode.querySelector('button').previousSibling;
+  console.log(li);
+  if(event.target.textContent === 'delete'){
+    console.log('ghbdtn');
+    deleteBtn.parentNode.remove();
+  }
+  
+}
 
 // function pictureAssignment(key) {
 // }
